@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy 18th Birthday Lyn</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  />
+
+  <style>
+    body {
+      font-family: "Montserrat", sans-serif;
+      background:
+        radial-gradient(circle at top, rgba(236, 72, 153, 0.16), transparent 25%),
+        radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.16), transparent 20%),
+        linear-gradient(180deg, #090b1a 0%, #060816 45%, #05070f 100%);
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, .serif {
+      font-family: "Playfair Display", serif;
+    }
+
+    .glass {
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 8px 40px rgba(0, 0, 0, 0.25);
+    }
+
+    .star {
+      position: absolute;
+      background: white;
+      border-radius: 50%;
+      opacity: 0;
+      animation: twinkle var(--duration) ease-in-out infinite;
+    }
+
+    @keyframes twinkle {
+      0% {
+        opacity: 0;
+        transform: scale(0.5);
+      }
+      50% {
+        opacity: 0.95;
+        transform: scale(1.15);
+      }
+      100% {
+        opacity: 0;
+        transform: scale(0.5);
+      }
+    }
+
+    .floating-heart {
+      position: fixed;
+      pointer-events: none;
+      z-index: 70;
+      animation: floatUp 1.5s ease-out forwards;
+      text-align: center;
+      transform: translate(-50%, -50%);
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translate(-50%, -50%) scale(0.6);
+        opacity: 1;
+      }
+      100% {
+        transform: translate(-50%, -150px) scale(1.3);
+        opacity: 0;
+      }
+    }
+
+    .photo-slide {
+      transition: opacity 0.8s ease-in-out;
+    }
+
+    .confetti {
+      position: fixed;
+      top: -20px;
+      width: 10px;
+      height: 16px;
+      opacity: 0.9;
+      z-index: 80;
+      animation: confettiFall linear forwards;
+    }
+
+    @keyframes confettiFall {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(110vh) rotate(720deg);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body class="text-white min-h-screen relative">
+
+  <!-- Start Overlay -->
+  <div
+    id="start-overlay"
+    class="fixed inset-0 bg-black/90 flex flex-col items-center justify-center z-[9999] transition-opacity duration-700"
+  >
+    <h1 class="text-4xl md:text-6xl text-pink-300 mb-4 serif">For Lyn</h1>
+    <p class="text-gray-300 mb-8">click anywhere to enter</p>
+    <button
+      id="enter-btn"
+      type="button"
+      class="px-8 py-3 bg-pink-600 rounded-full hover:bg-pink-700 transition shadow-lg shadow-pink-500/40"
+    >
+      Enter
+    </button>
+  </div>
+
+  <!-- Background Music -->
+  <audio id="bg-music" loop preload="auto">
+    <source src="music/it-might-be-you-instrumental.mp3" type="audio/mpeg" />
+  </audio>
+
+  <!-- Stars -->
+  <div id="stars-container" class="fixed inset-0 pointer-events-none z-0"></div>
+
+  <!-- Birthday Overlay -->
+  <div
+    id="birthday-overlay"
+    class="fixed inset-0 bg-black/85 backdrop-blur-sm flex flex-col items-center justify-center z-[90] hidden px-4 text-center"
+  >
+    <h2 class="text-4xl md:text-7xl text-pink-300 mb-4 serif">Happy Birthday Lyn! 🎉</h2>
+    <p class="text-lg md:text-2xl text-white/90">welcome to your 18th chapter baby.</p>
+  </div>
+
+  <!-- Main -->
+  <div class="relative z-10 container mx-auto px-4 py-12 flex flex-col items-center">
+
+    <!-- Hero -->
+    <section class="text-center mb-16 mt-10 max-w-5xl">
+      <p class="inline-flex items-center gap-2 rounded-full glass px-4 py-2 text-sm text-white/80 mb-6">
+        <i class="fa-solid fa-sparkles text-pink-300"></i>
+        to the most important person in my life
+      </p>
+
+      <h1 class="text-5xl md:text-7xl lg:text-8xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-300 via-white to-violet-300 mb-5 drop-shadow-lg leading-tight">
+        Happy 18th Birthday baby!!!
+      </h1>
+
+      <p class="text-xl md:text-2xl text-pink-100/80 italic serif">
+        for the most beautiful girl in my world
+      </p>
+    </section>
+
+    <!-- Countdown -->
+    <section class="mb-16 w-full max-w-4xl" id="countdown-section">
+      <p class="text-center text-white/75 mb-6">counting down to march 9, 2026</p>
+
+      <div id="countdown" class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 text-center">
+        <div class="flex flex-col items-center">
+          <div id="days" class="w-20 h-20 md:w-28 md:h-28 glass rounded-2xl flex items-center justify-center text-3xl md:text-5xl font-bold font-mono">00</div>
+          <span class="text-xs md:text-sm text-pink-200 mt-2 uppercase tracking-[0.3em]">Days</span>
+        </div>
+
+        <div class="flex flex-col items-center">
+          <div id="hours" class="w-20 h-20 md:w-28 md:h-28 glass rounded-2xl flex items-center justify-center text-3xl md:text-5xl font-bold font-mono">00</div>
+          <span class="text-xs md:text-sm text-pink-200 mt-2 uppercase tracking-[0.3em]">Hours</span>
+        </div>
+
+        <div class="flex flex-col items-center">
+          <div id="minutes" class="w-20 h-20 md:w-28 md:h-28 glass rounded-2xl flex items-center justify-center text-3xl md:text-5xl font-bold font-mono">00</div>
+          <span class="text-xs md:text-sm text-pink-200 mt-2 uppercase tracking-[0.3em]">Minutes</span>
+        </div>
+
+        <div class="flex flex-col items-center">
+          <div id="seconds" class="w-20 h-20 md:w-28 md:h-28 glass rounded-2xl flex items-center justify-center text-3xl md:text-5xl font-bold font-mono">00</div>
+          <span class="text-xs md:text-sm text-pink-200 mt-2 uppercase tracking-[0.3em]">Seconds</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Photo Gallery -->
+    <section class="w-full max-w-5xl mb-16">
+      <div class="text-center mb-6">
+        <p class="inline-flex items-center gap-2 rounded-full glass px-4 py-2 text-sm text-white/80">
+          <i class="fa-solid fa-images text-pink-300"></i>
+          our memories
+        </p>
+      </div>
+
+      <div class="grid lg:grid-cols-[1.1fr_0.9fr] gap-6">
+        <div class="glass rounded-3xl overflow-hidden p-3 shadow-2xl">
+          <div class="relative aspect-[4/5] overflow-hidden rounded-[1.5rem]">
+            <img
+              id="gallery-img"
+              src="photos/photo1.jpg"
+              class="w-full h-full object-cover photo-slide opacity-100"
+              alt="Memory"
+            />
+          </div>
+
+          <div class="flex justify-center gap-3 mt-5" id="gallery-dots"></div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4" id="gallery-thumbs"></div>
+      </div>
+    </section>
+
+    <!-- Special Videos -->
+    <section class="w-full max-w-5xl mb-16">
+      <div class="text-center mb-6">
+        <p class="inline-flex items-center gap-2 rounded-full glass px-4 py-2 text-sm text-white/80">
+          <i class="fa-solid fa-film text-pink-300"></i>
+          special videos
+        </p>
+      </div>
+
+      <div class="glass rounded-3xl overflow-hidden p-6 shadow-2xl text-center">
+        <div class="aspect-video rounded-[1.5rem] bg-black/40 flex flex-col items-center justify-center px-6">
+          <i class="fa-brands fa-youtube text-red-500 text-6xl mb-4"></i>
+          <h3 class="text-2xl md:text-3xl serif text-white mb-3">special videos for lyn</h3>
+          <p class="text-white/70 mb-6">tap the buttons below to watch each memory video on youtube.</p>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-2xl">
+            <a href="https://youtube.com/shorts/LzUv3IT32AQ?feature=share" target="_blank" class="px-5 py-3 rounded-full bg-pink-500 hover:bg-pink-600 transition text-white font-medium">
+              video 1
+            </a>
+            <a href="https://youtu.be/0Ogq1C0kv9w" target="_blank" class="px-5 py-3 rounded-full bg-pink-500 hover:bg-pink-600 transition text-white font-medium">
+              video 2
+            </a>
+            <a href="https://youtu.be/LmTDwwBEo7s" target="_blank" class="px-5 py-3 rounded-full bg-pink-500 hover:bg-pink-600 transition text-white font-medium">
+              video 3
+            </a>
+            <a href="https://youtu.be/ZoIxHhH7HwE" target="_blank" class="px-5 py-3 rounded-full bg-pink-500 hover:bg-pink-600 transition text-white font-medium">
+              video 4
+            </a>
+            <a href="https://youtu.be/0Tv0tRiGq4M" target="_blank" class="px-5 py-3 rounded-full bg-pink-500 hover:bg-pink-600 transition text-white font-medium sm:col-span-2">
+              video 5
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Secret Letter Button -->
+    <section class="mb-16 relative z-[20]">
+      <button
+        id="open-letter-btn"
+        type="button"
+        class="relative z-[20] px-8 py-3 bg-gradient-to-r from-pink-500 to-purple-600 rounded-full text-white font-medium shadow-lg shadow-pink-500/30 flex items-center gap-2 mx-auto hover:scale-105 transition"
+      >
+        <i class="fas fa-lock"></i>
+        Open My Letter
+      </button>
+    </section>
+
+    <!-- Final Surprise -->
+    <section class="w-full max-w-2xl mb-20 relative z-[10]">
+      <div
+        id="final-surprise"
+        class="glass p-8 rounded-3xl border border-pink-500/30 text-center opacity-50 pointer-events-none"
+      >
+        <i class="fas fa-lock text-3xl text-gray-400 mb-4"></i>
+        <h3 class="text-xl text-gray-300 serif">Locked Until March 9, 2026</h3>
+      </div>
+    </section>
+
+    <!-- Music Control -->
+    <div class="fixed bottom-6 right-6 z-[999]">
+      <button
+        id="music-toggle"
+        type="button"
+        class="w-12 h-12 glass rounded-full flex items-center justify-center hover:bg-white/10 transition"
+      >
+        <i id="music-icon" class="fas fa-play"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Letter Modal -->
+  <div
+    id="letter-modal"
+    class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[95] hidden items-center justify-center p-4"
+  >
+    <div class="bg-white/95 p-6 md:p-8 max-w-3xl w-full rounded-3xl shadow-2xl relative max-h-[90vh] overflow-y-auto">
+      <button
+        id="close-letter-btn"
+        class="absolute top-4 right-5 text-gray-500 hover:text-black text-3xl"
+        type="button"
+      >
+        &times;
+      </button>
+
+      <h3 class="text-2xl md:text-4xl serif text-pink-600 mb-6 text-center">
+        my dearest lyn,
+      </h3>
+
+      <div class="text-gray-700 leading-8 text-base md:text-lg">
+        <p class="mb-4">happy 18th birthday baby!</p>
+
+Today the world celebrates the day you were born, but for me, today is also a reminder of how lucky i am that someone like you exists.</p>
+<p class="mb-4"></p>
+out of billions of people in this world, somehow our paths crossed. and that alone is something i will always be grateful for.</p>
+<p class="mb-4"></p>
+you may not realize it sometimes, but you changed my life in ways you don’t even see. the way you smile, the way you care, the way you simply exist — it made my world a little softer, a little warmer, and a lot happier.</p>
+<p class="mb-4"></p>
+eighteen years ago, a beautiful story began. not just your story, but the story of a girl who would grow up to become someone incredibly kind, strong, and unforgettable.</p>
+<p class="mb-4"></p>
+and i’m proud of you.</p>
+<p class="mb-4"></p>
+proud of the person you are.</p>
+<p class="mb-4"></p>
+proud of how far you’ve come.</p>
+<p class="mb-4"></p>
+and proud of the person you’re slowly becoming.</p>
+<p class="mb-4"></p>
+life won’t always be easy, but if there’s one thing i know about you, it’s that your heart is stronger than you think. even on the days you doubt yourself, you still keep going.</p>
+<p class="mb-4"></p>
+and that’s something truly beautiful.</p>
+<p class="mb-4"></p>
+if i could wish one thing for you today, it would be that you see yourself the way i see you.</p>
+<p class="mb-4"></p>
+someone rare.</p>
+<p class="mb-4"></p>
+someone genuine.</p>
+<p class="mb-4"></p>
+someone worth loving.</p>
+<p class="mb-4"></p>
+someone who deserves every good thing this world can offer.</p>
+<p class="mb-4"></p>
+happy 18th birthday lynn ko</p>
+<p class="mb-4"></p>
+and if life ever becomes overwhelming, i hope you remember that there will always be someone here who believes in you, who cares about you, and who is endlessly grateful that you are part of his life.</p>
+<p class="mb-4"></p>
+because meeting you will always be one of the most beautiful things that ever happened to me.</p>
+<p class="mb-4"></p>
+I LOVE YOU SO MUCH LYN. FOREVER AND ALWAYS.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const TARGET_DATE = new Date("March 9, 2026 00:00:00").getTime();
+
+    const PHOTOS = [
+      "photos/photo1.jpg",
+      "photos/photo2.jpg",
+      "photos/photo3.jpg",
+      "photos/photo4.jpg",
+      "photos/photo5.jpg",
+      "photos/photo6.jpg"
+    ];
+
+    const LOVE_MESSAGES = [
+      "i love you lyn",
+      "happy 18th baby",
+      "my baby",
+      "forever proud of you",
+      "you are my world",
+      "lyn 🤍"
+    ];
+
+    let currentPhoto = 0;
+    let galleryInterval = null;
+    let musicPlaying = false;
+    let overlayShown = false;
+
+    const starsContainer = document.getElementById("stars-container");
+    const startOverlay = document.getElementById("start-overlay");
+    const enterBtn = document.getElementById("enter-btn");
+    const bgMusic = document.getElementById("bg-music");
+    const musicToggle = document.getElementById("music-toggle");
+    const musicIcon = document.getElementById("music-icon");
+    const letterModal = document.getElementById("letter-modal");
+    const openLetterBtn = document.getElementById("open-letter-btn");
+    const closeLetterBtn = document.getElementById("close-letter-btn");
+    const birthdayOverlay = document.getElementById("birthday-overlay");
+    const galleryImg = document.getElementById("gallery-img");
+    const galleryDots = document.getElementById("gallery-dots");
+    const galleryThumbs = document.getElementById("gallery-thumbs");
+    const finalSurprise = document.getElementById("final-surprise");
+
+    function createStars() {
+      for (let i = 0; i < 90; i++) {
+        const star = document.createElement("div");
+        const size = Math.random() * 3 + 1;
+        star.className = "star";
+        star.style.left = Math.random() * 100 + "%";
+        star.style.top = Math.random() * 100 + "%";
+        star.style.width = size + "px";
+        star.style.height = size + "px";
+        star.style.setProperty("--duration", Math.random() * 3 + 2 + "s");
+        starsContainer.appendChild(star);
+      }
+    }
+
+    function closeStartOverlay() {
+      if (!startOverlay) return;
+
+      startOverlay.style.opacity = "0";
+      startOverlay.style.pointerEvents = "none";
+
+      setTimeout(() => {
+        startOverlay.remove();
+      }, 700);
+
+      if (bgMusic) {
+        bgMusic.play()
+          .then(() => {
+            musicPlaying = true;
+            musicIcon.className = "fas fa-pause";
+          })
+          .catch(() => {
+            musicPlaying = false;
+            musicIcon.className = "fas fa-play";
+          });
+      }
+    }
+
+    function toggleMusic() {
+      if (!bgMusic) return;
+
+      if (musicPlaying) {
+        bgMusic.pause();
+        musicPlaying = false;
+        musicIcon.className = "fas fa-play";
+      } else {
+        bgMusic.play()
+          .then(() => {
+            musicPlaying = true;
+            musicIcon.className = "fas fa-pause";
+          })
+          .catch(() => {
+            musicPlaying = false;
+            musicIcon.className = "fas fa-play";
+          });
+      }
+    }
+
+    function updateCountdown() {
+      const now = Date.now();
+      const distance = TARGET_DATE - now;
+
+      if (distance <= 0) {
+        document.getElementById("days").textContent = "00";
+        document.getElementById("hours").textContent = "00";
+        document.getElementById("minutes").textContent = "00";
+        document.getElementById("seconds").textContent = "00";
+
+        unlockFinalSurprise();
+
+        if (!overlayShown) {
+          overlayShown = true;
+          showBirthdayOverlay();
+        }
+        return;
+      }
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((distance / (1000 * 60)) % 60);
+      const seconds = Math.floor((distance / 1000) % 60);
+
+      document.getElementById("days").textContent = String(days).padStart(2, "0");
+      document.getElementById("hours").textContent = String(hours).padStart(2, "0");
+      document.getElementById("minutes").textContent = String(minutes).padStart(2, "0");
+      document.getElementById("seconds").textContent = String(seconds).padStart(2, "0");
+    }
+
+    function showBirthdayOverlay() {
+      birthdayOverlay.classList.remove("hidden");
+      createConfettiBurst();
+
+      setTimeout(() => {
+        birthdayOverlay.classList.add("hidden");
+      }, 4000);
+    }
+
+    function createConfettiBurst() {
+      const colors = ["#ec4899", "#ffffff", "#c084fc", "#f9a8d4", "#93c5fd"];
+
+      for (let i = 0; i < 140; i++) {
+        const piece = document.createElement("div");
+        piece.className = "confetti";
+        piece.style.left = Math.random() * 100 + "vw";
+        piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+        piece.style.width = Math.random() * 8 + 6 + "px";
+        piece.style.height = Math.random() * 10 + 8 + "px";
+        piece.style.animationDuration = Math.random() * 2 + 2 + "s";
+        piece.style.opacity = Math.random() * 0.5 + 0.5;
+        piece.style.transform = `rotate(${Math.random() * 360}deg)`;
+        document.body.appendChild(piece);
+
+        setTimeout(() => {
+          piece.remove();
+        }, 4500);
+      }
+    }
+
+    function renderGalleryDots() {
+      galleryDots.innerHTML = "";
+
+      PHOTOS.forEach((_, index) => {
+        const dot = document.createElement("button");
+        dot.type = "button";
+        dot.className =
+          index === currentPhoto
+            ? "h-2.5 w-10 rounded-full bg-white transition-all"
+            : "h-2.5 w-2.5 rounded-full bg-white/35 transition-all";
+
+        dot.addEventListener("click", () => {
+          currentPhoto = index;
+          showPhoto(currentPhoto);
+          restartGalleryInterval();
+        });
+
+        galleryDots.appendChild(dot);
+      });
+    }
+
+    function renderGalleryThumbs() {
+      galleryThumbs.innerHTML = "";
+
+      PHOTOS.forEach((src, index) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className =
+          index === currentPhoto
+            ? "overflow-hidden rounded-[1.5rem] border border-white/30 bg-white/5"
+            : "overflow-hidden rounded-[1.5rem] border border-white/10 bg-white/5";
+
+        btn.innerHTML = `
+          <div class="aspect-square overflow-hidden">
+            <img src="${src}" alt="memory ${index + 1}" class="w-full h-full object-cover" />
+          </div>
+        `;
+
+        btn.addEventListener("click", () => {
+          currentPhoto = index;
+          showPhoto(currentPhoto);
+          restartGalleryInterval();
+        });
+
+        galleryThumbs.appendChild(btn);
+      });
+    }
+
+    function showPhoto(index) {
+      galleryImg.style.opacity = "0";
+
+      setTimeout(() => {
+        galleryImg.src = PHOTOS[index];
+        galleryImg.style.opacity = "1";
+        renderGalleryDots();
+        renderGalleryThumbs();
+      }, 300);
+    }
+
+    function nextPhoto() {
+      currentPhoto = (currentPhoto + 1) % PHOTOS.length;
+      showPhoto(currentPhoto);
+    }
+
+    function restartGalleryInterval() {
+      if (galleryInterval) clearInterval(galleryInterval);
+      galleryInterval = setInterval(nextPhoto, 3000);
+    }
+
+    function unlockFinalSurprise() {
+      finalSurprise.classList.remove("opacity-50", "pointer-events-none");
+      finalSurprise.innerHTML = `
+        <i class="fas fa-unlock text-3xl text-pink-300 mb-4"></i>
+        <h3 class="text-2xl text-white serif mb-3">Happy 18th Birthday Lyn 🤍</h3>
+        <p class="text-white/80 leading-8">
+          you are my favorite person and one of the most beautiful blessings in my life.
+          today is all about you, and i hope you feel just how loved you are.
+        </p>
+      `;
+    }
+
+    function createFloatingHeart(x, y) {
+      const heart = document.createElement("div");
+      heart.className = "floating-heart";
+
+      const randomMessage =
+        LOVE_MESSAGES[Math.floor(Math.random() * LOVE_MESSAGES.length)];
+
+      heart.style.left = x + "px";
+      heart.style.top = y + "px";
+
+      heart.innerHTML = `
+        <div class="flex flex-col items-center gap-1">
+          <i class="fas fa-heart text-pink-400 text-2xl"></i>
+          <span class="text-white/90 text-xs md:text-sm bg-white/10 border border-white/10 px-3 py-1 rounded-full">
+            ${randomMessage}
+          </span>
+        </div>
+      `;
+
+      document.body.appendChild(heart);
+
+      setTimeout(() => {
+        heart.remove();
+      }, 1500);
+    }
+
+    function openLetter() {
+      letterModal.classList.remove("hidden");
+      letterModal.classList.add("flex");
+    }
+
+    function closeLetter() {
+      letterModal.classList.add("hidden");
+      letterModal.classList.remove("flex");
+    }
+
+    function init() {
+      createStars();
+      renderGalleryDots();
+      renderGalleryThumbs();
+      showPhoto(currentPhoto);
+      updateCountdown();
+
+      setInterval(updateCountdown, 1000);
+      galleryInterval = setInterval(nextPhoto, 3000);
+
+      if (enterBtn) {
+        enterBtn.onclick = closeStartOverlay;
+      }
+
+      if (startOverlay) {
+        startOverlay.addEventListener("click", (e) => {
+          if (e.target === startOverlay) {
+            closeStartOverlay();
+          }
+        });
+      }
+
+      if (openLetterBtn) {
+        openLetterBtn.onclick = openLetter;
+      }
+
+      if (closeLetterBtn) {
+        closeLetterBtn.onclick = closeLetter;
+      }
+
+      if (letterModal) {
+        letterModal.addEventListener("click", (e) => {
+          if (e.target === letterModal) {
+            closeLetter();
+          }
+        });
+      }
+
+      if (musicToggle) {
+        musicToggle.onclick = toggleMusic;
+      }
+
+      document.addEventListener("click", (e) => {
+        const overlayExists = document.getElementById("start-overlay");
+        if (overlayExists) return;
+
+        if (
+          e.target.closest("#open-letter-btn") ||
+          e.target.closest("#close-letter-btn") ||
+          e.target.closest("#music-toggle") ||
+          e.target.closest("#letter-modal") ||
+          e.target.closest("a")
+        ) {
+          return;
+        }
+
+        createFloatingHeart(e.clientX, e.clientY);
+      });
+    }
+
+    document.addEventListener("DOMContentLoaded", init);
+  </script>
+</body>
+</html>
